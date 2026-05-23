@@ -11,8 +11,8 @@ import view.OutputView;
 
 public class Main {
 
-    private static ContentRepository repository = new ContentRepository();
-    private static NetflixService service = new NetflixService(repository);
+    private static final ContentRepository repository = new ContentRepository();
+    private static final NetflixService service = new NetflixService(repository);
 
     public static void main(String[] args) {
         while (true) {
@@ -34,9 +34,15 @@ public class Main {
     }
 
     private static void handleContentDetail() {
-        int contentId = InputView.selectContentId();
-        Content content = service.getContent(contentId);
-        OutputView.printContent(content);
+        while(true){
+            try{
+                int contentId = InputView.selectContentId();
+                Content content = service.getContent(contentId);
+                OutputView.printContent(content);
+            }catch (ContentNotFoundException e){
+                System.out.println(e.getMessage());
+            }
+        }
     }
 
     private static void handleAddContent() {
