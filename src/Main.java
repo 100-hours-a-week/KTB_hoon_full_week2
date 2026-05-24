@@ -49,6 +49,10 @@ public class Main {
                 OutputView.printContent(content);
                 while (true){
                     ContentMenuOption op = InputView.selectContentDisplayOption();
+                    switch (op){
+                        case PLAY : playService.playContent(content); break;
+                        case STOP : playService.stopContent(content); break;
+                    }
                     if (op == ContentMenuOption.PLAY) {
                         playService.playContent(content);
                     }

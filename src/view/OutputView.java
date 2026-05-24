@@ -50,15 +50,13 @@ public class OutputView {
         System.out.println();
     }
 
-    public static void printContentPauseStatus(Content content){
+    public static void printContentStopStatus(Content content) {
         System.out.println();
         System.out.println("┌─────────────────────────────────────────────────┐");
-        System.out.println("│            ⏸   P A U S E D   ⏸                   │");
+        System.out.println("│            ⏹   S T O P P E D   ⏹                  │");
         System.out.println("├─────────────────────────────────────────────────┤");
         System.out.printf ("│  🎬 Title       : %-29s │%n", truncate(content.getName(), 29));
-        System.out.printf ("│  ⏱  Running Time: %-28s │%n", content.getRunningTime() + " min");
-        System.out.println("│                                                 │");
-        System.out.println("│        재생을 다시 시작하려면 [1]을 누르세요.       │");
+        System.out.printf ("│  ⏱  Watched     : %-28s │%n", "재생 정보가 저장되었습니다");
         System.out.println("└─────────────────────────────────────────────────┘");
         System.out.println();
     }

@@ -22,15 +22,14 @@ public class PlayService {
             PlayHistory playHistory = new PlayHistory(currentContent.getId(), lastWatchingTime);
             playHistoryRepository.save(currentContent.getId(), playHistory);
         }
-
-        // TODO : 재생 기록 null 여부 확인 부분 수정 필요
-        // 기존 재생 정보 있으면 가져와야 함
-        final PlayHistory history = playHistoryRepository.get(content.getId()).orElse(null);
-        player.play(content, history != null ? history.getLastWatchingTime() : 0);
+        int lastWatchingTime = playHistoryRepository.get(content.getId())
+                .map(PlayHistory::getLastWatchingTime)
+                .orElse(0);
+        player.play(content, lastWatchingTime);
     }
 
     public void stopContent(Content content){
-        player.stop(content);
+        player.stop();
         PlayHistory playHistory = new PlayHistory(content.getId(), 123);
         playHistoryRepository.save(content.getId(), playHistory);
     }
