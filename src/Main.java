@@ -1,18 +1,26 @@
 import content.Content;
+import content.player.BasicPlayer;
+import content.player.Player;
 import dto.ContentAddReqDto;
 import enums.ContentTypeOption;
+import enums.menu.ContentMenuOption;
 import enums.menu.MenuOption;
 import exception.ContentNotFoundException;
 import java.util.List;
 import repository.ContentRepository;
-import service.NetflixService;
+import repository.PlayHistoryRepository;
+import service.ContentService;
+import service.PlayService;
 import view.InputView;
 import view.OutputView;
 
 public class Main {
 
-    private static final ContentRepository repository = new ContentRepository();
-    private static final NetflixService service = new NetflixService(repository);
+    private static final Player player = new BasicPlayer();
+    private static final ContentRepository contentRepository = new ContentRepository();
+    private static final PlayHistoryRepository playHistoryRepository = new PlayHistoryRepository();
+    private static final ContentService contentService = new ContentService(contentRepository);
+    private static final PlayService playService = new PlayService(playHistoryRepository, player);
 
     public static void main(String[] args) {
         while (true) {
@@ -29,7 +37,7 @@ public class Main {
     }
 
     private static void handleContentList() {
-        List<Content> contents = service.handleContentsView();
+        List<Content> contents = contentService.handleContentsView();
         OutputView.printContentList(contents);
     }
 
@@ -37,8 +45,16 @@ public class Main {
         while(true){
             try{
                 int contentId = InputView.selectContentId();
-                Content content = service.getContent(contentId);
+                Content content = contentService.getContent(contentId);
                 OutputView.printContent(content);
+                while (true){
+                    ContentMenuOption op = InputView.selectContentDisplayOption();
+                    if (op == ContentMenuOption.PLAY) {
+                        playService.playContent(content);
+                    }
+                    break;
+                }
+                return;
             }catch (ContentNotFoundException e){
                 System.out.println(e.getMessage());
             }
@@ -50,13 +66,13 @@ public class Main {
         ContentAddReqDto contentAddRequest = InputView.readContentInfo();
         switch (option) {
             case ORIGINAL_MOVIE:
-                service.addOriginalMovie(InputView.readOriginalMovieInfo(contentAddRequest));
+                contentService.addOriginalMovie(InputView.readOriginalMovieInfo(contentAddRequest));
                 break;
             case LICENSED_MOVIE:
-                service.addLicensedMovie(InputView.readLicensedMovieInfo(contentAddRequest));
+                contentService.addLicensedMovie(InputView.readLicensedMovieInfo(contentAddRequest));
                 break;
             case SERIES:
-                service.addSeries(InputView.readSeriesInfo(contentAddRequest));
+                contentService.addSeries(InputView.readSeriesInfo(contentAddRequest));
                 break;
             case CANCEL:
                 OutputView.printMessage("취소되었습니다");

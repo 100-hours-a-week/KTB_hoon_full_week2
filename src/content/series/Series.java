@@ -46,14 +46,4 @@ public class Series extends Content {
     public SeriesType getSeriesType() {
         return seriesType;
     }
-
-    @Override
-    public void play() {
-
-    }
-
-    @Override
-    public void stop() {
-
-    }
 }

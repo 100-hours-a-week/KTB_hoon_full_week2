@@ -9,6 +9,7 @@ import enums.ContentTypeOption;
 import enums.Genre;
 import enums.SeriesType;
 
+import enums.menu.ContentMenuOption;
 import java.time.LocalDate;
 import java.util.Scanner;
 import validator.InputValidator;
@@ -25,6 +26,23 @@ public class InputView {
         return readPositiveInt("컨텐츠 ID");
     }
 
+    public static ContentMenuOption selectContentDisplayOption(){
+        while (true) {
+            ContentMenuOption[] ops = ContentMenuOption.values();
+            System.out.println("─────────────── ▶ ⏸ ───────────────");
+            for(ContentMenuOption op : ops){
+                System.out.printf("  [%d] %s%n", op.getCode(), op.getLabel());
+            }
+            System.out.println("─────────────────────────────────────");
+            int choice = readPositiveInt("선택");
+            try {
+                return ContentMenuOption.fromCode(choice);
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
     public static ContentTypeOption readContentType() {
         while (true) {
             System.out.println();
@@ -32,7 +50,6 @@ public class InputView {
             for (ContentTypeOption type : ContentTypeOption.values()) {
                 System.out.printf("  [%d] %s%n", type.getCode(), type.getLabel());
             }
-            System.out.println("  [0] 취소");
             int choice = readPositiveIntAllowZero("선택");
             try {
                 return ContentTypeOption.fromCode(choice);

@@ -35,14 +35,4 @@ public class Movie extends Content {
     public String getDistributor() {
         return distributor;
     }
-
-    @Override
-    public void play() {
-
-    }
-
-    @Override
-    public void stop() {
-
-    }
 }

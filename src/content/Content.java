@@ -35,10 +35,6 @@ public abstract class Content {
         this.description = description;
     }
 
-    public abstract void play();
-    public abstract void stop();
-
-
     public int getId() {
         return id;
     }

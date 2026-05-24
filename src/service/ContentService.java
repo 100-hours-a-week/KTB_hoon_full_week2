@@ -12,11 +12,11 @@ import exception.ContentNotFoundException;
 import java.util.List;
 import repository.ContentRepository;
 
-public class NetflixService {
+public class ContentService {
 
     private final ContentRepository contentRepository;
 
-    public NetflixService(ContentRepository repository) {
+    public ContentService(ContentRepository repository) {
         this.contentRepository = repository;
     }
 
